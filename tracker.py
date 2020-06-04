@@ -100,6 +100,7 @@ def load_county_data(today):
             data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-15-2020.csv")
             today = "2020-06-01"
     data.dropna(subset=['FIPS'], inplace=True)
+    st.write(data)
     data.drop(['FIPS', 'Country_Region', 'Last_Update', 'Combined_Key', 'Active', 'Incidence_Rate', 'Case-Fatality_Ratio'], axis=1, inplace=True)
     data.rename(columns={'Admin2': 'county', 'Province_State': 'state', 'Lat': 'lat', 'Long_': 'long', 'Confirmed': 'cases', 'Deaths': 'deaths', 'Recovered': 'recovered'}, inplace=True)
     data.dropna(subset=['county', 'lat', 'long'], inplace=True, how="any")
