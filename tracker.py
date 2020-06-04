@@ -34,6 +34,7 @@ st.markdown("_Excludes US territories (American Samoa, Guam, Northern Mariana" +
 " Islands, Puerto Rico, and Virgin Islands)._")
 
 territories = ["District of Columbia", "Guam", "Northern Mariana Islands", "Puerto Rico", "Virgin Islands"]
+@st.cache()
 def load_state_data():
     data = pd.read_csv(STATE_DATA_URL)
     for i in territories:
@@ -81,6 +82,7 @@ if st.checkbox("Show Raw State Data", False):
     st.write(state_data)
 
 st.header("Map of Cases by County")
+@st.cache()
 def load_county_data(today):
     url = COUNTIES_DATA_URL.replace("date", today)
     r = requests.get(url)
@@ -144,9 +146,11 @@ if st.checkbox("Show Raw County Data", False):
     st.subheader('Raw Data')
     st.write(county_data)
 
+@st.cache()
 def load_us_hist_data():
     return pd.read_csv(US_HIST_DATA_URL)
 
+@st.cache()
 def load_state_hist_data():
     data = pd.read_csv(STATE_HIST_DATA_URL)
     for i in territories:
