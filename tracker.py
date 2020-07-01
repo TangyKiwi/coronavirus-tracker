@@ -32,6 +32,11 @@ st.markdown("This application is a Streamlit dashboard for tracking " +
     "COVID-19 cases live in the US.")
 st.markdown("_Excludes US territories (American Samoa, Guam, Northern Mariana" +
 " Islands, Puerto Rico, and Virgin Islands)._")
+st.markdown("<html><body><div id='cntr'>Total Visitors: <span>0</span></div>" +
+"<script>function counter_fn(){var counter = $('#cntr span').text();" +
+"var count = 0;count = parseInt(counter.value);count = count+1;" +
+"counter.innerHTML = parseInt(count);}window.onload = counter_fn;" +
+"</script></body></html>", unsafe_allow_html=True)
 
 territories = ["District of Columbia", "Guam", "Northern Mariana Islands", "Puerto Rico", "Virgin Islands"]
 @st.cache()
