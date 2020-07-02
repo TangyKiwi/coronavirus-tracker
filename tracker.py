@@ -32,7 +32,7 @@ st.markdown("This application is a Streamlit dashboard for tracking " +
     "COVID-19 cases live in the US.")
 st.markdown("_Excludes US territories (American Samoa, Guam, Northern Mariana" +
 " Islands, Puerto Rico, and Virgin Islands)._")
-st.markdown("<img src='https://visitor-badge.glitch.me/badge?page_id=TangyKiwi.us-covid-tracker' alt='visitor badge'/>", unsafe_allow_html=True)
+st.markdown("![visitors](https://visitor-badge.glitch.me/badge?page_id=TangyKiwi.us-covid-tracker)")
 
 territories = ["District of Columbia", "Guam", "Northern Mariana Islands", "Puerto Rico", "Virgin Islands"]
 @st.cache()
