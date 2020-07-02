@@ -230,7 +230,10 @@ elif area_select == 'County':
                 if county_list['county'][i] == county_select and county_list['state'][i] == state_select:
                     fips = county_list['fips'][i]
                     break
-            selected_data = county_hist_data[(county_hist_data['fips'] == fips)]
+            if county_select == 'New York City':
+                selected_data = county_hist_data[(county_hist_data['county'] == 'New York City')]
+            else:
+                selected_data = county_hist_data[(county_hist_data['fips'] == fips)]
             selected_data.drop(['county'], axis=1, inplace=True)
             selected_data.drop(['state'], axis=1, inplace=True)
             selected_data.drop(['fips'], axis=1, inplace=True)
