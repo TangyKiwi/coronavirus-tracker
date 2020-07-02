@@ -26,6 +26,9 @@ STATE_HIST_DATA_URL = (
 COUNTIES_HIST_DATA_URL = (
 "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
 )
+COUNTY_LIST_URL = (
+"https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv"
+)
 
 st.title("Live US Coronavirus Tracker")
 st.markdown("This application is a Streamlit dashboard for tracking " +
@@ -63,6 +66,15 @@ states = [('AA', 'Select'),
     ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
     ('WI', 'Wisconsin'), ('WY', 'Wyoming')
 ]
+
+@st.cache()
+def load_county_list():
+    data = pd.read_csv(COUNTY_LIST_URL)
+    data.drop(['date', 'cases', 'deaths', 'confirmed_cases', 'confirmed_deaths', 'probable_cases', 'probable_deaths'], axis=1, inplace=True)
+    data.reset_index(drop=True, inplace=True)
+    return data
+
+county_list = load_county_list()
 
 st.header("Map of Cases by State")
 fig = go.Figure(data=go.Choropleth(
@@ -161,6 +173,11 @@ def load_state_hist_data():
     data.reset_index(drop=True, inplace=True)
     return data
 
+@st.cache()
+def load_county_hist_data():
+    data = pd.read_csv(COUNTIES_HIST_DATA_URL)
+    return data
+
 def draw_hist_graphs(data, title1, title2):
     fig = go.Figure(go.Scatter(x=data['date'], y=data['cases'], line=dict(color='red')))
     fig.update_layout(
@@ -189,13 +206,36 @@ if area_select == 'US':
         st.write(us_hist_data)
 elif area_select == 'State':
     state_select = st.selectbox('State', list(dict(states).values()))
+    state_hist_data = load_state_hist_data()
     if state_select != 'Select':
-        state_hist_data = load_state_hist_data()
         selected_data = state_hist_data[(state_hist_data['state'] == state_select)]
         selected_data.drop(['state'], axis=1, inplace=True)
+        selected_data.reset_index(drop=True, inplace=True)
         draw_hist_graphs(selected_data, state_select + " Cases", state_select + " Deaths")
         if st.checkbox("Show Raw Historical State Data", False):
             st.subheader(state_select + ' Raw Data')
             st.write(selected_data)
 elif area_select == 'County':
-    st.write("county chosen")
+    county_hist_data = load_county_hist_data()
+    state_select = st.selectbox('State', list(dict(states).values()))
+    if state_select != 'Select':
+        county_select_list = ["Select"]
+        for i in range(len(county_list['state'])):
+            if county_list['state'][i] == state_select:
+                county_select_list.append(county_list['county'][i])
+        county_select = st.selectbox('County', county_select_list)
+        if county_select != 'Select':
+            fips = -1
+            for i in range(len(county_list['county'])):
+                if county_list['county'][i] == county_select and county_list['state'][i] == state_select:
+                    fips = county_list['fips'][i]
+                    break
+            selected_data = county_hist_data[(county_hist_data['fips'] == fips)]
+            selected_data.drop(['county'], axis=1, inplace=True)
+            selected_data.drop(['state'], axis=1, inplace=True)
+            selected_data.drop(['fips'], axis=1, inplace=True)
+            selected_data.reset_index(drop=True, inplace=True)
+            draw_hist_graphs(selected_data, county_select + " Cases", county_select + " Deaths")
+            if st.checkbox("Show Raw Historical County Data", False):
+                st.subheader(county_select + ' Raw Data')
+                st.write(selected_data)
