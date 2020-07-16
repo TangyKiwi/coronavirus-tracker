@@ -32,8 +32,8 @@ COUNTY_LIST_URL = (
 
 st.title("Live US Coronavirus Tracker")
 st.markdown("This application is a Streamlit dashboard for tracking " +
-    "COVID-19 cases live in the US.")
-st.markdown("_Excludes US territories (American Samoa, Guam, Northern Mariana" +
+    "COVID-19 cases live in the US.*")
+st.markdown("_*Excludes US territories (American Samoa, Guam, Northern Mariana" +
 " Islands, Puerto Rico, and Virgin Islands)._")
 st.markdown("![Hits](http://tangykiwi.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fus-covid-tracker.herokuapp.com)" +
     "  ![visitors](https://kiwi-view-counter.glitch.me/badge?page_id=TangyKiwi.us-covid-tracker)")
@@ -111,8 +111,8 @@ def load_county_data(today):
             data = pd.read_csv(url)
             today = (datetime.now() - timedelta(1)).strftime("%Y-%m-%d")
         else:
-            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/06-02-2020.csv")
-            today = "2020-07-14"
+            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/07-14-2020.csv")
+            today = "2020-07-13"
     data.dropna(subset=['FIPS'], inplace=True)
     data.drop(['FIPS', 'Country_Region', 'Last_Update', 'Combined_Key', 'Active', 'Incidence_Rate', 'Case-Fatality_Ratio'], axis=1, inplace=True)
     data.rename(columns={'Admin2': 'county', 'Province_State': 'state', 'Lat': 'lat', 'Long_': 'long', 'Confirmed': 'cases', 'Deaths': 'deaths', 'Recovered': 'recovered'}, inplace=True)
