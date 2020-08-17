@@ -111,8 +111,8 @@ def load_county_data(today):
             data = pd.read_csv(url)
             today = (datetime.now() - timedelta(1)).strftime("%Y-%m-%d")
         else:
-            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/07-14-2020.csv")
-            today = "2020-07-14"
+            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/08-15-2020.csv")
+            today = "2020-08-15"
     data.dropna(subset=['FIPS'], inplace=True)
     data.drop(['FIPS', 'Country_Region', 'Last_Update', 'Combined_Key', 'Active', 'Incidence_Rate', 'Case-Fatality_Ratio'], axis=1, inplace=True)
     data.rename(columns={'Admin2': 'county', 'Province_State': 'state', 'Lat': 'lat', 'Long_': 'long', 'Confirmed': 'cases', 'Deaths': 'deaths', 'Recovered': 'recovered'}, inplace=True)
