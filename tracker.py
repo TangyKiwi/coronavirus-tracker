@@ -104,15 +104,15 @@ def load_county_data(today):
         data = pd.read_csv(url)
         today = datetime.now().strftime("%Y-%m-%d")
     else:
-        today = (datetime.now() - timedelta(1)).strftime("%m-%d-%Y")
+        today = (datetime.now() - timedelta(2)).strftime("%m-%d-%Y")
         url = COUNTIES_DATA_URL.replace("date", today)
         r = requests.get(url)
         if r.ok:
             data = pd.read_csv(url)
-            today = (datetime.now() - timedelta(1)).strftime("%Y-%m-%d")
+            today = (datetime.now() - timedelta(2)).strftime("%Y-%m-%d")
         else:
-            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/08-15-2020.csv")
-            today = "2021-03-09"
+            data = pd.read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-08-2021.csv")
+            today = "2021-03-08"
     data.dropna(subset=['FIPS'], inplace=True)
     data.drop(['FIPS', 'Country_Region', 'Last_Update', 'Combined_Key', 'Active', 'Incidence_Rate', 'Case-Fatality_Ratio'], axis=1, inplace=True)
     data.rename(columns={'Admin2': 'county', 'Province_State': 'state', 'Lat': 'lat', 'Long_': 'long', 'Confirmed': 'cases', 'Deaths': 'deaths', 'Recovered': 'recovered'}, inplace=True)
