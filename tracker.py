@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import requests
 from datetime import datetime, timedelta
-
+# fake push
 US_DATA_URL = (
 "https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us.csv"
 )
